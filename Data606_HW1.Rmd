@@ -1,0 +1,109 @@
+---
+title: "Data606_HW1"
+author: "Vijaya Cherukuri"
+date: "8/31/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## 1)SMOKING HABITS OF UK RESIDENTS:
+
+
+### (a) What does each row of the data matrix represent?
+
+Ans) Each row in data matrix represent each CASE of uk resident(about their details like age,sex,marital,gross       income,smoke,cigarettes consumption  per weekends and weekdays).
+
+### (b) How many participants were included in the survey?
+
+Ans) 1691 participants were included(# last row).
+
+### (c) Indicate whether each variable in the study is numerical or categorical. If numerical, identify as continuous or discrete. If categorical, indicate if the variable is ordinal.
+
+Ans) EACH COLOUMN IN THE DATA SET INDICATE VARIABLE
+
+      VARIABLE                    TYPE
+      
+      SEX           = CATEGORICAL VARIABLE(Without type of special ordering is called a NOMINAL VARIABLE).
+   
+   	  AGE           = NUMERICAL VARIABLE (It can only take numerical values with jumps called DISCRETE).
+	  
+	  MARITAL       = CATEGORICAL VARIABLE(Without type of special ordering is called a NOMINAL VARIABLE).
+	  
+	  GROSSINCOME   = NUMERICAL VARIABLE (It can only take numerical values with jumps called DISCRETE).
+	  
+	  SMOKE         = CATEGORICAL VARIABLE(Without type of special ordering is called a NOMINAL VARIABLE).
+	  
+	  AMTWEEKENDS   = NUMERICAL VARIABLE(It can only take numerical values with jumps called DISCRETE).
+	  
+	  AMTWEEKDAYS   = NUMERICAL VARIABLE(It can only take numerical values with jumps called DISCRETE).
+	  
+	  
+## 2)  CHEATERS, SCOPE OF INFERENCE:	  
+
+### (a) Identify the population of interest and the sample in this study.
+
+Ans) All the children between 5-15 years old represents POPULATION OF INTEREST.
+     160 CHILDREN who are selected for review are collectively called THE SAMPLE.
+	 
+### (b) Comment on whether or not the results of the study can be generalized to the population, and if the findings of the study can be used to establish causal relationships.
+
+Ans) This study was taken by research on only sample of population (children-160) but not on whole population,so it is hard to generalize.
+     It is a Random (toss a fair coin in question) EXPERIMENTAL study,so study can be used to establish CAUSAL relationships.
+	 
+## 3)   READING THE PAPER :
+
+### (a) An article titled Risks: Smokers Found More Prone to Dementia. Based on this study, can we conclude that smoking causes dementia later in life? Explain your reasoning.
+	 
+Ans) We cannot conclude that smoking causes demetia.Because it is an observational study, however we cannot establish CAUSAL relationship between smokers and dementia patients.The other reason is they took samples from the members who participated in a voluntary exam but not a random pick.
+	  
+### (b) Another article titled The School Bully Is Sleepy states the following: 
+### A friend of yours who read the article says, “The study shows that sleep disorders lead to bullying in school children.” Is this statement justified? If not, how best can you describe the conclusion that can be drawn from this study?
+	 
+Ans) In my opinion this statement is not justified because my friend is making causal conclusion based on observation study.sleeping disorder is not only the reason for bullying in school children,there might be other factors which can effect children behavior
+	 
+	 
+## 4)EXERCISE AND MENTAL HEALTH :
+
+### (a) What type of study is this?
+
+Ans) It is a Randomized experimental study.
+
+### (b) What are the treatment and control groups in this study?
+
+Ans) TREATMENT GROUP : Who are assigned to exercise twice a week.
+
+ CONTROL GROUP   : Who are instructed not to do exersice.
+
+### (c) Does this study make use of blocking? If so, what is the blocking variable?
+
+Ans) Yes. AGE is the blocking variable(18-30=low risk, 31-40= medium risk, 41-55=high risk).
+ 
+### (d) Does this study make use of blinding?
+
+Ans) This cannot be blind,because patients knew directly which group they belong to(either treatment group or control group by the instruction given to them). 
+
+### (e) Comment on whether or not the results of the study can be used to establish a causal relationship between exercise and mental health, and indicate whether or not the conclusions can be generalized to the population at large.
+
+Ans) Since it is experimental study,result can be used to establish a causal relationship between exercise and mental health.
+The conclusion is generalised because research done on whole population( All patients). 	
+
+### (f) Suppose you are given the task of determining if this proposed study should get funding. Would you have any reservations about the study proposal?
+
+Ans) There are other variables which will effect the mental condition depends upon the age, so that doing exersice is not a solution which can decide the mental health of the patient.
+
+
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

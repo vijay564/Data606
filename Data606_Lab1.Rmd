@@ -1,0 +1,110 @@
+---
+title: "Data606_Lab1"
+author: "Vijaya Cherukuri"
+date: "8/31/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Introduction to R and RStudio Lab
+
+```{r}
+source("E:/github/MS/DATA606/Lab1/more/arbuthnot.R")
+source("E:/github/MS/DATA606/Lab1//more/present.R")
+```
+
+## Exercise 1
+What command would you use to extract just the counts of girls baptized?
+
+```{r}
+# Get the variables used in the dataset
+names(arbuthnot)
+# Count of no.of girls in arbuthnot dataset
+arbuthnot$girls
+```
+
+## Exercise 2
+Is there an apparent trend in the number of girls baptized over the years?
+How would you describe it?
+
+```{r}
+# Plot describing number of girls with respect to years
+plot(arbuthnot$year, arbuthnot$girls, type = "l")
+```
+
+## Exercise 3
+Now, make a plot of the proportion of boys over time. What do you see? 
+
+```{r}
+# Plot a graph for boy proportion over years
+boy_proportion = arbuthnot$boys / (arbuthnot$boys + arbuthnot$girls)
+plot(arbuthnot$year, boy_proportion, type = "l", col = "dark Orange")
+
+```
+
+# On Your Own
+
+## 1.What years are included in this data set? What are the dimensions of the data frame and what are the variable or column names?
+
+```{r}
+# years included in the dataset
+present$year
+# Dimensions used in the dataset
+dim(present)
+# Variables and colum names used in the dataset
+names(present)
+
+```
+
+## 2.How do these counts compare to Arbuthnot’s? Are they on a similar scale?
+
+```{r}
+#comparing years 
+range(arbuthnot$year)
+range(present$year)
+
+##comparing dimentions
+dim(arbuthnot)
+dim(present)
+
+##comparing variables
+names(arbuthnot)
+names(present)
+```
+By looking at the above results we can observe that 
+1) The variables used in both datasets are same.
+2) The dimensions are not on a same scale. 
+3) The date range for Arbuthnot and Present are not on same scale.
+
+## 3.Make a plot that displays the boy-to-girl ratio for every year in the data set. What do you see? Does Arbuthnot’s observation about boys being born in greater proportion than girls hold up in the U.S.? Plot included
+
+```{r}
+# Get the ratio in both datasets
+boy_girl_ratio_present <- present$boys/present$girls
+boy_girl_ratio_arbuthnot <- arbuthnot$boys/arbuthnot$girls
+
+# Plot 2 graphs for comparision
+par(mfrow=c(1,2))
+plot( present$year, boy_girl_ratio_present, type="l", col="blue" )
+plot( arbuthnot$year, boy_girl_ratio_arbuthnot, type="l", col="dark grey" )
+
+```
+
+
+Based on this we can observer that from boys to girls ratio keeps decreasing in Present dataset when compared to Arbuthnot's.
+
+## 4.In what year did we see the most total number of births in the U.S.?
+
+```{r}
+final_ds <- data.frame(present$year, present$boys + present$girls)
+names(final_ds)
+names(final_ds) <- c("Year", "Births")
+names(final_ds)
+# Order by Births descending
+final_ds <- final_ds[order(final_ds$Births,decreasing = TRUE),]
+# Show the year with the most births
+head(final_ds, n=1)
+```
