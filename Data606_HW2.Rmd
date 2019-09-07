@@ -1,0 +1,98 @@
+---
+title: "Data606_HW2"
+author: "Vijaya Cherukuri"
+date: "9/7/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## 1) Stats scores. (2.33, p. 78) Below are the final exam scores of twenty introductory statistics students. 57, 66, 69, 71, 72, 73, 74, 77, 78, 78, 79, 79, 81, 81, 82, 83, 83, 88, 89, 94. Create a box plot of the distribution of these scores.
+
+
+### ANS)
+
+```{r}
+exam_scores <- c(57, 66, 69, 71, 72, 73, 74, 77, 78, 78, 79, 79, 81, 81, 82, 83, 83, 88, 89, 94)
+
+summary(exam_scores)
+
+boxplot(exam_scores)
+
+```
+
+## 2)MIX AND MATCH:  (2.10, p. 57) Describe the distribution in the histograms below and match them to the box plots.
+
+### ANS)
+
+#### a) SYMMETRIC :(Data sets that show roughly equal trailing off in both directions are called symmetric) and the match will be" BOX PLOT 2".
+
+#### b) MULTI - MODAL:(Any distribution with more than 2 prominent peaks is called multimodal) and the match will be "BOX PLOT 3".
+
+#### c) RIGHT SKEWED:(When data trail off to the right in this way and has a longer right tail, the shape is said to be right skewed) and the match will be "BOX PLOT 1".
+
+
+## 3)DISTRIBUTIONS AND APPROPRIATE STATISTICS:
+
+### (a) Housing prices in a country where 25% of the houses cost below $350,000, 50% of the houses cost bel$450,000, 75% of the houses cost below $1,000,000 and there are a meaningful number of houses that cost more than $6,000,000.
+
+#### Ans) The distribution will represent LEFT SKEW.Median and IQR would be best since there will be some outliers.
+
+### (b) Housing prices in a country where 25% of the houses cost below $300,000, 50% of the houses cost below $600,000, 75% of the houses cost below $900,000 and very few houses that cost more than $1,200,000.
+
+#### Ans)The distribution will represent SYMMETRICAL.Since it is evenly distributed mean and variance are used.
+
+### (c) Number of alcoholic drinks consumed by college students in a given week. Assume that most of these students don’t drink since they are under 21 years old, and only a few drink excessively.
+
+#### Ans)The distribution will be skewed to the  RIGHT.since Median and IQR would be better to employ.
+
+### (d) Annual salaries of the employees at a Fortune 500 company where only a few high level executives earn much higher salaries than the all other employees.
+
+#### Ans)The distribution will be a SYMMETRICAL. In this case,the mean and standard deviation would be the best representations of the typical observation and variability.
+
+
+## 4)HEART TRANSPLANTS:
+
+### A) Based on the mosaic plot, is survival independent of whether or not the patient got a transplant? Explain your reasoning.
+
+#### Ans)Based on the mosaic plot,survival is dependent.Because proportion of alive in treatment group is more compare to that of control group.
+
+### B) What do the box plots below suggest about the efficacy (effectiveness) of the heart transplant treatment?
+
+#### Ans)Box plot suggest that heart transplant really  increases the probability of survival of patients.
+
+### C) What proportion of patients in the treatment group and what proportion of patients in the control group died?
+
+#### Ans)Proportion of patients died in treatment group:
+####              ALIVE = 24
+####              DIED = 45
+####			  TOTAL = 69
+####              proportion of died = 45/69=65%.
+####	Proportion of patients died in control group:
+####	          ALIVE = 4
+####	          DIED = 30
+####			  TOTAL = 34
+####              proportion of died = 30/34=88%.
+			  
+### D)One approach for investigating whether or not the treatment is effective is to use a randomization technique.
+
+### i. What are the claims being tested?
+
+#### Ans) Whether or not treatment is effective?if so,proportion of patients alive in the treatment group and control group.
+   
+### ii. The paragraph below describes the set up for such approach, if we were to do it without using statistical software. Fill in the blanks with a number or phrase, whichever is appropriate.
+
+#### Ans) We write alive on ___28_______ cards representing patients who were alive at the end of the study, and dead on __75______ cards representing patients who were not.
+#### Then, we shuffle these cards and split them into two groups: one group of size __69________ representing treatment, and another group of size ___34_______ representing control. 
+#### We calculate the difference between the proportion of dead cards in the treatment and control groups (treatment- control) and record this value. 
+#### We repeat this 100 times to build a distribution centered at  ___0______ .
+#### Lastly, we calculate the fraction of simulations where the simulated differences in proportions are __0.2_____ .
+#### If this fraction is low, we conclude that it is unlikely to have observed such an outcome by chance and that the null hypothesis should be rejected in favor of the alternative.
+
+### iii. What do the simulation results shown below suggest about the effectiveness of the transplant program.
+
+#### Ans) The simulation difference is 0.2.so that the null hypothesis should be rejected in favor of the "ALTERNATIVE HEART TRANSPLANT PROGRAM IS EFFECTIVE". 	
+
