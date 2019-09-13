@@ -1,0 +1,174 @@
+---
+title: "Data606_HW3"
+author: "Vijaya Cherukuri"
+date: "9/11/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1) DICE ROLLS :
+
+### a) Getting a sum of 1?
+#### Ans)The probability of Getting sum 1 = 0(since it has maximum sum 2 when two dies are rolled).
+
+### (b) Getting a sum of 5?
+#### Ans)The probability of Getting sum 5 = 4/36= 1/9{outcomes set =(1,4),(4,1),(2,3),(3,2)}.
+
+### (c) Getting a sum of 12?
+#### Ans)The probability of Getting sum 12 = 1/36 {outcomes set =(6,6)}.
+
+## 2)POVERTY AND LANGUAGE :
+
+### (a) Are living below the poverty line and speaking a foreign language at home disjoint?
+#### Ans)No,people (4.2%) belong to both below poverty line and speakers of foriegn language.
+
+### (b) Draw a Venn diagram summarizing the variables and their associated probabilities.
+#### Ans)
+
+```{r}
+library(VennDiagram)
+#definig variables
+B_Poverty = 14.6
+F_Language  = 20.7
+joint = 4.2
+# draw venn diagram
+grid.newpage()
+vD = draw.pairwise.venn(F_Language,B_Poverty,cross.area=joint,category = c("Speak FL"," Below PL"), fill = c('yellow','skyblue'))
+
+```
+
+### (c) What percent of Americans live below the poverty line and only speak English at home?
+#### Ans)10.4% of Americans live below poverty line and only speak English at home.
+
+### (d) What percent of Americans live below the poverty line or speak a foreign language at home?
+#### Ans) P(A or B ) = P(A)+ P(B)-P(A and B) = 14.6 + 20.7 - 4.2 = 31.1.
+####     31.1% percent of Americans live below the poverty line or speak a foreign language at home
+
+### (e) What percent of Americans live above the poverty line and only speak English at home?
+#### Ans) P(A^c and B^C) = 1- P(A or B) = 100 - 31.1 = 68.9%
+
+### (f) Is the event that someone lives below the poverty line independent of the event that the person speaks a foreign language at home?
+#### Ans)  No,because there are people that are in both categories and one factor may influence the other.Hence these 2 events are NOT INDEPENDENT.
+
+## 3) ASSORTATIVE MATING:
+### (a) What is the probability that a randomly chosen male respondent or his partner has blue eyes?
+#### Ans)P(A or B)=P(A)+P(B)-P(A and B) = 114/204 + 108/204 - 78/204 = 114/204 = 0.7058 = 70%.
+
+### (b) What is the probability that a randomly chosen male respondent with blue eyes has a partner with blue eyes?
+#### Ans)Males with blue eyes = 114
+####    Males with blue eyes and with female partners with blue eyes = 78
+####    P(male has blue eyes and partner has blue eyes | male has blue eyes) = 78/114 = 0.6842 = 68.42%
+
+### (c) Whatistheprobabilitythatarandomlychosenmalerespondentwithbrowneyeshasapartner with blue eyes? What about the probability of a randomly chosen male respondent with green eyes having a partner with blue eyes?
+#### Ans) i) Males with brown eyes = 54
+####         Males with brown eyes and with female partners with blue eyes = 19
+####        P(male with brown eyes and female partner with blue eyes | male has brown eyes) = 19/54 = 0.3518 = 35.18% 
+####     ii)Males with green eyes = 36
+####       Males with green eyes and with female partners with blue eyes = 11
+####       P(male with green eyes and female partner with blue eyes | male has green eyes) = 11/36 = 0.3055 = 30.55% 
+
+### (d) Does it appear that the eye colors of male respondents and their partners are independent? Explain your reasoning.
+#### Ans)No,if we consider  that the eye colors of male respondents and their partners are 2 factor .One factor may influence the other. 
+
+
+## 4)BOOKS ON A BOOKSHELF :
+### (a) Find the probability of drawing a hardcover book first then a paperback fiction book second when drawing without replacement.
+#### Ans) Probabilty hardcover book = 28/95
+####     Probabilty paperback fiction book = 59/94
+####	 Total probability without replacement = 28/95 *59/94 = 0.1849 = 18.49%
+
+## (b) Determine the probability of drawing a fiction book first and then a hardcover book second, when drawing without replacement.
+#### Ans) Probabilty fiction book     = 72/95. 
+####     Probabilty  hardcover book  = 28/94.
+####     Total probability without replacement = 72/95 * 28/94 = 0.2257 = 22.57%
+
+### (c) Calculate the probability of the scenario in part (b), except this time complete the calculations under the scenario where the first book is placed back on the bookcase before randomly drawing the second book.
+#### Ans) Probabilty fiction book     = 72/95 
+####     Probabilty  hardcover book  =  28/95
+####	 Total probability with replacement = 72/95 * 28/95 = 0.2233 = 22.33%
+
+### (d) The final answers to parts (b) and (c) are very similar. Explain why this is the case.
+#### Ans)The only case is:
+####                     WITH REPLACEMENT TOTAL BOOKS = 95 (for the second draw).
+####                     WITHOUT REPLACEMENT TOTAL BOOKS = 94 (for the second draw).
+
+
+## 5)BAGGAGE FEES :
+### (a) Build a probability model, compute the average revenue per passenger, and compute the corresponding standard deviation.
+#### Ans)
+
+```{r}
+#defining vectors
+checked_bags <- c(0, 1, 2)
+revenue <- c(0, 25, 35)
+probability <- c(.54, .34, .12)
+
+#convert vectors into data frame
+(value <- data.frame(checked_bags, probability, revenue))
+
+#calculating average revenue
+(expected_value <- c(crossprod(probability, revenue)))
+
+#calculting standard deviation
+variance <- c(crossprod(((value$revenue-expected_value)^2), value$probability))
+(standard_dev <- sqrt(variance))
+
+```
+
+### (b) About how much revenue should the airline expect for a flight of 120 passengers? With what standard deviation? Note any assumptions you make and if you think they are justified.
+#### Ans)
+
+```{r}
+#defining vectors of 120 passengers
+checked_bags_120 <- c(0, 1, 2)
+revenue_120 <- c(0*120, 25*120, 35*120)
+probability_120 <- c(.54, .34, .12)
+
+#creating data frame
+(value_120 <- data.frame(checked_bags_120, probability_120, revenue_120))
+
+#calculating average revenue of 120
+(expected_value_120 <- c(crossprod(probability_120, revenue_120)))
+
+#cal standard deviation
+variance_120 <- c(crossprod(((value_120$revenue_120-expected_value_120)^2), value_120$probability_120))
+(standard_dev_120 <- sqrt(variance_120))
+
+```
+
+## 6)INCOME AND GENDER :
+### (a) Describe the distribution of total personal income.
+
+```{r}
+Income = c(10000,15000,25000,35000,45000,55000,65000,75000,99999,100,000)
+Percent = c(2.2,4.7,15.8,18.3,21.2,13.9,5.8,8.4,9.7)
+barplot(Percent,Income,xlab='Income distribution', col = "orange")
+
+```
+
+#### Ans)It is right skewed distribution. 
+
+### (b) What is the probability that a randomly chosen US resident makes less than $50,000 per year?
+#### Ans)
+
+```{r}
+result <- sum(Percent[1:5])
+result
+
+```
+
+### (c) What is the probability that a randomly chosen US resident makes less than $50,000 per year and is female? Note any assumptions you make.
+#### Ans) The assumption is to take 40% of females from the sample data.
+####       Here,income and females are independent events 
+####       Hence P(A AND B) = P(A) * P(B).
+
+```{r}
+result*0.41
+```
+
+### (d) The same data source indicates that 71.8% of females make less than $50,000 per year. Use this value to determine whether or not the assumption you made in part (c) is valid.
+#### Ans) The assumption made in part (C) is not valid.Because it is given that percent of females are more in less than $50,000 per year.
+
