@@ -1,0 +1,272 @@
+---
+title: "Data606_HW4"
+author: "Vijaya Cherukuri"
+date: "9/12/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1) Area under the curve :
+
+```{r}
+library(DATA606)
+```
+
+### (a) Z < −1.35
+
+```{r}
+1 - pnorm(-1.35, mean = 0, sd = 1)
+normalPlot(mean = 0, sd = 1, bounds=c(-Inf,-1.35), tails = F)
+```
+
+#### 8.85% percent of a standard normal distribution N(µ = 0, σ = 1) is found in this region.
+
+### (b) Z > 1.48
+```{r}
+1-pnorm(1.48, mean = 0, sd = 1)
+normalPlot(mean = 0, sd = 1, bounds=c(1.48,Inf), tails = F)
+```
+
+#### 6.94% percent of a standard normal distribution N(µ = 0, σ = 1) is found in this region.
+
+### (c) −0.4 < Z < 1.5
+```{r}
+1-pnorm(c(-0.4,1.5), mean = 0, sd = 1)
+normalPlot(mean = 0, sd = 1, bounds=c(-0.4,1.5), tails = F)
+```
+
+#### 58.9% percent of a standard normal distribution N(µ = 0, σ = 1) is found in this region.
+
+### (d) |Z| > 2
+```{r}
+1-pnorm(2, mean = 0, sd = 1)
+normalPlot(mean = 0, sd = 1, bounds=c(2,Inf), tails = F)
+```
+
+#### 2.28% percent of a standard normal distribution N(µ = 0, σ = 1) is found in this region.
+
+## 2)Triathlon times :
+
+### (a) Write down the short-hand for these two normal distributions?
+
+#### Ans) Men: Ages 30-34: N(μ=4313,σ=583).
+####        Women: Ages 25-29: N(μ=5261,σ=807).
+
+### (b) What are the Z-scores for Leo’s and Mary’s finishing times? What do these Z-scores tell you?
+
+#### Ans)
+```{r}
+(Z_Leo <- (4948-4313)/583)
+(Z_Mary <- (5513-5261)/807)
+```
+
+#### Leo is 1.089194 of SD above the mean.
+#### Marry is 0.3122677 of SD above the mean.
+
+### (c) Did Leo or Mary rank better in their respective groups? Explain your reasoning.
+
+#### Ans) Leo ranked better than Mary in their respective group,since Leo’s Z-score was much higher than Mary’s.
+
+### (d) What percent of the triathletes did Leo finish faster than in his group?
+
+```{r}
+round(pnorm(Z_Leo)*100, 2)
+```
+
+### (e) What percent of the triathletes did Mary finish faster than in her group?
+
+```{r}
+round(pnorm(Z_Mary)*100, 2)
+```
+
+### (f) If the distributions of finishing times are not nearly normal, would your answers to parts (b) - (e) change? Explain your reasoning.
+
+#### Ans) If distributions are not nearly normal, then part (b) will remain the same since Z-scores can still be
+#### calculated. However, parts (d) and (e) rely on the normal model for calculations, so the results would change.
+
+## 3) Heights of female college students:
+
+### (a) The mean height is 61.52 inches with a standard deviation of 4.58 inches. Use this information to determine if the heights approximately follow the 68-95-99.7% Rule?
+
+```{r}
+heights <- c(54, 55, 56, 56, 57, 58,58, 59, 60, 60, 60, 61, 61, 62, 62, 63, 63, 63, 64, 65, 65, 67, 67, 69, 73)
+heights_mean <- mean(heights)
+heights_sd <- sd(heights)
+
+#For 1 SD
+heights_upper1 <- heights_mean + heights_sd
+heights_lower1 <- heights_mean - heights_sd
+
+#For 2 SD
+heights_upper2 <- heights_mean + (2*heights_sd)
+heights_lower2 <- heights_mean - (2*heights_sd)
+
+#For 3 SD
+heights_upper3 <- heights_mean + (3*heights_sd)
+heights_lower3 <- heights_mean - (3*heights_sd)
+
+# Result of 1 SD
+(length(heights[heights >= heights_lower1 & heights <= heights_upper1]) / length(heights) * 100)
+# Result of 2 SD
+(length(heights[heights >= heights_lower2 & heights <= heights_upper2]) / length(heights) * 100)
+# Result of 3 SD
+(length(heights[heights >= heights_lower3 & heights <= heights_upper3]) / length(heights) * 100)
+```
+
+#### Finally the output data approximately follow 68-95-99.7% Rule, since the output is 68-96-100%.
+
+### (b) Do these data appear to follow a normal distribution? Explain your reasoning using the graphs provided below?
+
+#### Ans) Yes,we can say that the distribution is nearly normal.
+####     It is little harder to tell based on the histogram than on the normal probability plot.
+####     The histogram graph roughly follows the normal curve, but the normal probability plot follows straight line. ####     There is one possible outlier on the lower end that is apparent in both graphs, but it is not too extreme.
+
+## 4) Defective rate :
+
+### (a) What is the probability that the 10th transistor produced is the first with a defect?
+
+#### Ans) Given n=10, p=0.02.
+####     Let X be the random variable having geometric distribution representing the number of the first defective         transistor, where p = probability of a defect:
+
+####            P(X)    = (1−p)^n−1.p = (1−0.02)^n−1×(0.02)
+####            P(X=10) =  (1−0.02)^9×(0.02) = 0.0167.
+
+### (b) What is the probability that the machine produces no defective transistors in a batch of 100?
+
+#### Ans)Since the processes are independent, we can apply the multiplication rule for the probability.
+
+####            P(no defective transistors in a batch of 100) =(1−0.02)^100 =0.1326
+
+### (c) On average, how many transistors would you expect to be produced before the first with a defect? What is the standard deviation?
+
+#### Ans) Mean and standard deviation of the transisters :
+```{r}                                 
+(mean <- 1/0.02)
+(SD <-sqrt((1 - 0.02)/0.02^2))
+```
+
+### (d) Another machine that also produces transistors has a 5% defective rate where each transistor is produced         independent of the others. On average how many transistors would you expect to be produced with this machine         before the first with a defect? What is the standard deviation?
+
+#### Ans) Mean and SD of transistors with 5% defective rate:
+```{r}
+(first_defect_prob <- 1/0.05)
+(sd <- sqrt((1 - 0.05)/0.05^2))
+```
+
+### (e) Based on your answers to parts (c) and (d), how does increasing the probability of an event affect the mean      and standard deviation of the wait time until success?
+
+#### Ans) When the probability of failure is bigger, the expected number of trials before a success and the standard      deviation of the waiting time are smaller.   
+
+## 5) Male children :
+
+### (a) Use the binomial model to calculate the probability that two of them will be boys.
+
+```{r}
+dbinom(2, 3, 0.51)
+```
+
+### (b) Write out all possible orderings of 3 children, 2 of whom are boys. Use these scenarios to calculate the same      probability from part (a) but using the addition rule for disjoint outcomes. Confirm that your answers from          parts (a) and (b) match.
+
+```{r}
+# Rule for disjoint
+# P(B) = 0.51, P(G) = 1-0.51 = 0.49
+# P = P[{G,B,B})+P({B,G,B})+P({B,B,G}]
+prob <- ((0.49*0.51*0.51)+(0.51*0.49*0.51)+(0.51*0.51*0.49))
+prob
+```
+
+### (c) If we wanted to calculate the probability that a couple who plans to have 8 kids will have 3 boys, briefly   describe why the approach from part (b) would be more tedious than the approach from part (a).
+
+```{r}
+dbinom(3,8,0.51)
+```
+
+
+####            No of ways = 8!/3!(8−3)!=8!/3!5!=(8)(7)(6)/(3)(2)(1)=56
+#### Using the choose function shows that there are 56 ways to have 3 boys out of 8 children. 
+#### With method (b), the probability of each of those instances would have to be computed individually and then          summed.With method (a), the formula for the binomial distribution computes the probability in one step.
+
+## 6) Serving in volleyball:
+
+### (a) What is the probability that on the 10th try she will make her 3rd successful serve?
+
+```{r}
+n = 10
+k = 3
+p= 0.15
+q = 0.85
+(probability = (factorial(n-1)/(factorial(k-1)*factorial(n-k))*p^k*q^(n-k)))
+```
+
+### (b) Suppose she has made two successful serves in nine attempts. What is the probability that her 10th serve will      be successful?
+
+#### Ans) The probability that her 10 serve will be successful is 0.51(51%).since the serve are independent.
+
+### (c) Even though parts (a) and (b) discuss the same scenario, the probabilities you calculated should be              different. Can you explain the reason for this discrepancy?
+
+#### Ans) part (a) asks about the joint probability of all of the first 10 trials whereas Part (b) only asks about        the independent probability of the 10th trials.  
+          
+                   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
