@@ -1,0 +1,10 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/532430/02aad3960d2147998c298acfe047b683
+bundleId: https://api.rpubs.com/api/v1/document/532430/02aad3960d2147998c298acfe047b683
+url: http://rpubs.com/vijay564/532430
+when: 1569461453.56819
