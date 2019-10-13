@@ -1,0 +1,114 @@
+---
+title: "Data606_Project Proposal"
+author: "Vijaya Cherukuri"
+date: "10/12/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data preparation :
+
+```{r}
+library(tidyr)
+library(dplyr)
+library(psych)
+library(stringr)
+```
+
+
+
+```{r}
+
+all_ages_df <-  read.csv(file = "https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/all-ages.csv", header= TRUE)
+names(all_ages_df)
+all_ages_df_eng <- all_ages_df %>% filter(Major_category == "Engineering")
+head(all_ages_df_eng)
+
+grad_df <-  read.csv(file = "https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/grad-students.csv", header= TRUE)
+names(grad_df)
+grad_df_eng <- grad_df %>% filter(Major_category == "Engineering")
+head(grad_df_eng)
+
+
+recent_grad_df <-  read.csv(file = "https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/recent-grads.csv", header= TRUE)
+names(recent_grad_df)
+recent_grad_df_eng <- recent_grad_df %>% filter(Major_category == "Engineering")
+head(recent_grad_df_eng)
+```
+
+## Research Question :
+#### Which college majors offer the best opportunities in terms of unemployment rate and salary?
+
+## Cases :
+#### Here for all 3 datasources All_ages, Grad Students and Recent Grads where each case that represents majors offered by colleges and universities. On total there are 173 majors each.
+
+## Data Collection :
+
+#### Every year, the U.S. Census Bureau contacts over 3.5 million households across the country to participate in the American Community Survey (ACS). The information that the Census Bureau collects helps to determine how more than $675 billion dollars of federal funding each year is spent on infrastructure and services. Through the ACS, data about jobs and occupations, educational attainment, veterans, whether people own or rent their home, and many other topics are available. The American Community Survey (ACS) Public Use Microdata Sample (PUMS) files are a set of untabulated records about individual people or housing units. The Census Bureau produces the PUMS files so that data users can create custom tables that are not available through pretabulated (or summary) ACS data products.
+
+## Type of study :
+
+#### This is an observational Study
+
+## Data Source :
+
+### These Data were collated by the 538 website: http://www.fivethirtyeight.com and was posted to their github page: https://github.com/fivethirtyeight/data/tree/master/college-majors
+
+### They in turn used data from:
+
+#### All data is from American Community Survey 2010-2012 Public Use Microdata Series.
+
+#### Download data here: http://www.census.gov/programs-surveys/acs/data/pums.html
+
+#### Documentation here: http://www.census.gov/programs-surveys/acs/technical-documentation/pums.html
+
+#### Major categories are from Carnevale et al, “What’s It Worth?: The Economic Value of College Majors.” Georgetown University Center on Education and the Workforce, 2011. http://cew.georgetown.edu/whatsitworth".
+
+## Response Variable :
+
+#### The response variable are the college majors and are categorical.
+
+## Explanatory Variables :
+
+#### The explanatory variables are the counts of employed and unemployed college degree holders and the statistics of their income.These data are numerical.
+
+## Relavent Summary Statistics :
+
+### First we will look at overall unemployment rate for the 3 categories: all ages, recent grads, and grad students.
+
+```{r}
+summary(all_ages_df$Unemployment_rate)
+summary(grad_df$Grad_unemployment_rate)
+summary(recent_grad_df$Unemployment_rate)
+```
+
+```{r}
+unempl <- cbind(all_ages_df$Unemployment_rate, recent_grad_df$Unemployment_rate, grad_df$Grad_unemployment_rate)
+barplot(unempl/nrow(unempl), names.arg = c("All", "Recent Grad", "Grad Student"), xlab = "Unemployment Rate", col = rainbow(nrow(unempl)))
+```
+
+### It appears that people holding only a Bachelor’s degree have nearly twice as high median unemployment as those with higher degrees.
+#### We will also look at median income for the three categories.
+
+```{r}
+summary(all_ages_df$Median)
+hist(all_ages_df$Median, main = "Hist for Median Income All Ages", xlab = "Median Income by Major All Ages", col = "dark violet")
+
+
+summary(grad_df$Grad_median)
+hist(grad_df$Grad_median, main = "Hist for Median Income Grd Students", xlab = "Median Income by Major Grad Student", col = "yellow")
+
+summary(recent_grad_df$Median)
+hist(recent_grad_df$Median, main = "Hist for Median Income Recent Grds", xlab = "Median Income by Major Recent Grads", col = "orange")
+
+```
+
+
+```{r}
+medsal <- cbind(all_ages_df$Median, recent_grad_df$Median, grad_df$Grad_median)
+barplot(medsal/nrow(medsal), names.arg = c("All", "Recent Grad", "Grad Student"), xlab = "Median Salary")
+
+```
