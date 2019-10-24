@@ -1,0 +1,185 @@
+---
+title: "Data606_HW7"
+author: "Vijaya Cherukuri"
+date: "10/22/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1.Working backwards, Part II : 
+
+###  Calculate the sample mean, the margin of error, and the sample standard deviation
+
+#### Ans)
+```{r}
+# Sample Mean 
+(Mean <- (65 + 77) / 2)
+
+# Margin or Error
+(ME <- 77-71)
+
+# Calculate the T-score
+t <- qt(.05, df=24)
+
+# Standard deviation
+(Sd <- ME/t * sqrt(25))
+
+```
+
+## 2.SAT scores :
+
+### (a) Raina wants to use a 90% confidence interval. How large a sample should she collect?
+
+#### Ans)
+```{r}
+z_score <- 1.65
+ME <- 25
+sd <- 250
+
+(sample_size <- ((z_score * sd) / ME) ^2)
+
+```
+
+
+### (b) Luke wants to use a 99% confidence interval. Without calculating the actual sample size, determine whether        his sample should be larger or smaller than Raina’s, and explain your reasoning.
+
+#### Ans) Luke’s sample should be larger than Raina’s if he wants a greater confidence in his estimate since a larger      sample would give a more accurate estimate of the population.
+
+### (c) Calculate the minimum required sample size for Luke.
+
+#### Ans)
+```{r}
+z <- qnorm(.995, mean = 0, sd = 1)
+Sample_size <- ((z^2) / (25^2)) * 250^2
+round(Sample_size)
+```
+
+## 3.High School and Beyond, Part I:
+
+### (a) Is there a clear difference in the average reading and writing scores?
+
+#### Ans) The median in the writing score seems a little higher, the mean scores seem very similar. The difference        distribution seems like it is close to normally distrbuted, centered at 0 which would indicate the scores are in      fact very similar.
+
+### (b) Are the reading and writing scores of each student independent of each other?
+
+#### Ans) If the question is are the students scores independent of each other, then  yes. However, if the question       is reffering to the paired data, it would appear the scores aren’t independent of each other.
+
+### (c) Create hypotheses appropriate for the following research question: is there an evident difference in the           average scores of students in the reading and writing exam?
+
+#### Ans) H_0: There is no difference in the reading and writing scores –> reading - writing = 0.
+####      H_A: There is a difference in the reading and writing scores –> reading - writing != 0.
+
+### (d) Check the conditions required to complete this test.
+
+#### Ans) 1) The differences were taken from a random sample and are presumed to be less than 10% of the population,           thereforore they are independant.
+####      2) The normal distribution is appropriate as distribution appears to be nearly normal and sample size is             greater than 30.
+
+### (e) The average observed difference in scores is xbread−write = −0.545, and the standard deviation of the             differences is 8.887 points. Do these data provide convincing evidence of a difference between the average           scores on the two exams?
+
+#### Ans) 
+```{r}
+# Calculating T scores
+SE <- 8.887/sqrt(200)
+t = (-0.545-0)/SE
+
+# P- value
+p = pt(q=t, df=199, lower.tail = TRUE)
+2 * p
+```
+
+#### Since p-value greater than 0.05, we fail to reject the null hypothesis. There is not enough statistical evidence      to say the difference between the average reading and writing scores is not due to normal sampling differences.
+
+### (f) What type of error might we have made? Explain what the error means in the context of the application.
+
+#### Ans) We have have made a Type 2 error, failing to reject the null when there is actually a difference in the         students’ reading and writing scores and the alternative hypothesis is true
+
+### (g) Based on the results of this hypothesis test, would you expect a confidence interval for the average             difference between the reading and writing scores to include 0? Explain your reasoning
+
+#### Ans) Yes, since a p-value of .387 means that if the null hypothesis is true we would expect to get a sample with      a mean difference equal to or greater than our sample mean difference about 38.7% of the time, I would expect        our confidence interval to include 0 our null value.
+
+## 4. Fuel efficiency of manual and automatic cars, Part II :
+
+### Use these statistics to calculate a 98% confidence interval for the difference between average highway mileage of     manual and automatic cars, and interpret this interval in the context of the data.
+
+#### Ans) 
+```{r}
+auto_mu <- 16.12
+auto_sd <- 3.58
+man_mu <- 19.85
+man_sd <- 4.51
+n <- 26
+
+diff <- man_mu - auto_mu 
+se <- sqrt((auto_sd^2/n) + (man_sd^2/n))
+t <- (diff - 0)/se
+(p = pt(t, n-1, lower.tail = FALSE))
+```
+
+#### As the p-value is .0014, there is strong evidence of a difference between the average fuel efficiency of cars        with manual and automatic transmissions.
+
+## 5.Email outreach efforts :
+
+### How many new enrollees do they need for each interface to detect an effect size of 0.5 surveys per enrollee, if      the desired power level is 80%?
+
+#### Ans) 
+```{r}
+s = 2.2
+mu = 0
+delta = 0.5
+ns = 10:1000
+power = rep(NA, length(ns))
+for(i in 10:1000){
+n = i
+t_star = qt(0.95, df = n-1)
+se = sqrt((s^2 / n) + (s^2 / n))
+cutoff = t_star * se
+t_cutoff = (cutoff - (mu+delta)) / se
+power[i-8] = pt(t_cutoff, df = n-1, lower.tail = FALSE)
+}
+which_n = which.min(abs(power - 0.8))
+power[which_n]
+power[which_n + 1]
+ns[which_n + 1]
+```
+
+#### New enrollees should be greater than 243 to get power level of 80 %.
+
+## 6.Work hours and education :
+
+### (a) Write hypotheses for evaluating whether the average number of hours worked varies across the five groups.
+
+#### Ans) H0: The mean hours worked is the same across all educational attainment groups
+####      HA: There is a difference in the mean hours worked in at least one group.
+
+### (b) Check conditions and describe any assumptions you must make to proceed with the test.
+
+#### Ans) Since our differences were taken from a random sample (and are presumably less than 10% of the population)       they are independent.They appear to be nearly normal and the sample size is greater than 30 so the normality         condition is satisfied
+
+### (c) Below is part of the output associated with this test. Fill in the empty cells.
+
+#### Ans)
+```{r}
+Data606 <- data.frame(
+  heading <- c("degree","Residuals","Total"),
+  Df <- c("4","1167","1171"),
+  SumSq <- c("2004.1","267382","269386.1"),
+  MeanSq <- c("501.54","229.13",""),
+  Fvalue <- c("2.19","",""),
+  prf <- c("0.0682","","")
+)
+
+colnames(Data606) <- c("heading","Df","Sum Sq","Mean Sq","F value","Pr(>F)")
+
+knitr::kable(Data606)
+```
+
+### (d) What is the conclusion of the test?
+
+#### Ans) Since the p-value = 0.0682 is greater than 0.05,null hypothesis does not get rejected.
+
+
+
+
