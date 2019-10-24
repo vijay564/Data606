@@ -200,4 +200,5 @@ by(nc$mage, nc$mature, range)
 ```{r}
 inference(y = nc$visits, x = nc$gender, est = "mean", type = "ht", null = 0, alternative = "twosided",  method = "theoretical")
 ```
+
 #### With 0.205 p-value, I fail to reject the null hypothesis at 0.05 level. From this, we can see that there is no      relationship between the gender of a child and the number of hospital visits during pregnancy.
