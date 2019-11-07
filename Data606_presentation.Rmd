@@ -1,0 +1,83 @@
+---
+title: "Data606_Presentation"
+author: "Vijaya Cherukuri"
+date: "10/29/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 8.31 Body measurements, Part IV: The scatterplot and least squares summary below show the relation-ship between              weight measured in kilograms and height measured in centimeters of 507 physically active individuals.
+
+```{r}
+Data606 <- data.frame(
+  heading <- c("Intercept","height"),
+  Estimate <- c("-105.0113","1.0176"),
+  Std.Error <- c("7.5394","0.0440"),
+  Tvalue <- c("-13.93","23.13"),
+  Pr <- c("0.000","0.000")
+)
+
+colnames(Data606) <- c("heading","Estimate","Std.Error","T value","Pr")
+
+knitr::kable(Data606)
+```
+
+### (a) Describe the relationship between height and weight.
+
+#### Ans)
+#### Predictor variable: height.
+
+#### Response variable: weight.
+
+#### The relationship is a positive strong correlation between height and weight.
+
+### (b) Write the equation of the regression line. Interpret the slope and intercept in context.
+
+#### Ans)
+#### weight^=−105.0113+1.0176∗height
+
+#### slope= 1.0176
+
+#### This indicates that each additional cm of height is associated with 1.0176 kg of weight.
+
+#### intercept = -105.0113
+
+#### This indicates that if the linear model is correct, then a height of 0 cm is associated with a weight of -105 kg       which doesn’t make sense.
+
+
+### (c) Do the data provide strong evidence that an increase in height is associated with an increase in weight? State      the null and alternative hypotheses, report the p-value, and state your conclusion.
+
+#### Ans)
+#### H(o): The true slope coefficient of height is zero.
+#### H(A): The slope coefficient of height is differe than zero.
+
+#### Since the p-value is incredibly small we can reject the null hypthesis.The data has significant evidence that         height and weight are correlated.
+
+### (d) The correlation coefficient for height and weight is 0.72. Calculate R2 and interpret it in context.
+
+#### Ans)
+#### R2=(0.72)^2=0.52
+ 
+#### This means that 52% of the variability in weight can be explained by the height variable.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

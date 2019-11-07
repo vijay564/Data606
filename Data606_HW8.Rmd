@@ -1,0 +1,165 @@
+---
+title: "Data606_HW8"
+author: "Vijaya Cherukuri"
+date: "11/1/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1.Nutrition at Starbucks, Part I:
+
+### (a) Describe the relationship between number of calories and amount of carbohydrates (in grams) that Starbucks        food menu items contain.
+
+#### Ans)It seems to be weak positive correlation between number of calories and amount of carbohydrates.Because          residuals are not that much closer to the line.
+
+### (b) In this scenario, what are the explanatory and response variables?
+
+#### Ans) The explanatory variable is Calories and the response variable is carbohydrates.
+
+### (c) Why might we want to fit a regression line to these data?
+
+#### Ans)People on low carb diets may be interested in knowing how many of the calories in a menu item.Even though        the regression line is not a perfect fit to the data, it is still a decent predictor
+
+### (d) Do these data meet the conditions required for fitting a least squares line?
+
+#### Ans) Linearity: The data does seem to linear.
+#### Nearly normal residuals: Residuals are normal.
+#### Constant variability: There isn’t constant variabilty, The residual chart shows that the residuals are scattered      more as calories increase.
+#### Independence: Each item on the menu should be independent of each other.
+
+#### The data meets the conditions required for fitting a least squares line
+
+## 2.Body measurements, Part I:
+
+### (a) Describe the relationship between shoulder girth and height.
+
+#### Ans) It seems to be linear and positive relationship exist between shoulder girth and height.
+
+### (b) How would the relationship change if shoulder girth was measured in inches while the units of height remained      in centimeters?
+
+#### Ans)The  relationship would become more linear and strong.Because residuals become more closer to each other if      shoulder girth was measured in inches while the units of height remained in centimeters
+
+## 3. Body measurements, Part III:
+
+### (a) Write the equation of the regression line for predicting height.
+
+#### Ans)
+```{r}
+# calculate slope
+(B1 <-  0.67 * (9.41/10.37))
+# calculate intercept
+(B0 <- 171.14 - B1 * 107.2)
+
+```
+
+#### The equation for the regression line is y^ = 105.97 + 0.61x
+
+### (b) Interpret the slope and the intercept in this context.
+
+#### Ans) The slope shows the increase in height as shoulder girth increases. The incerpet is the height with a           shoulder girth of 0.
+
+### (c) Calculate R2 of the regression line for predicting height from shoulder girth, and interpret it in the            context of the application.
+
+#### Ans)
+```{r}
+(R2 <- .67^2)
+```
+
+#### This shows that this linear model explains 44.89% of the variation of the height data.
+
+### (d) A randomly selected student from your class has a shoulder girth of 100 cm. Predict the height of this           student using the model.
+
+#### Ans) 
+```{r}
+(height <- B0 + B1 * 100)
+```
+
+#### I would predict the students height to be 166.76 cm based on the model.
+
+### (e) The student from part (d) is 160 cm tall. Calculate the residual, and explain what this residual means.
+
+#### Ans)
+```{r}
+(residual <- 160 - height)
+```
+
+#### The residual is -6.76. A negative residual means the student’s height is -6.76 cm less than the expected height       based on this model.
+
+### (f) A one year old has a shoulder girth of 56 cm. Would it be appropriate to use this linear model to predict the      height of this child?
+
+#### Ans) we see that the lowest shoulder girth was 85cm. We wouldn’t use our regression model to estimate this            child’s height since he or she is out of our range. 
+
+## 4. Cats, Part I:
+
+### (a) Write out the linear model.
+
+#### Ans) Heart_wt=−0.357+4.034(Body_wt)
+
+### (b) Interpret the intercept.
+
+#### Ans) The intercept is nonsensical because a cat can’t have 0 weight, and negative weight is also not possible.       The intercept only serves to adjust the position of the line.
+
+### (c) Interpret the slope.
+
+#### Ans) For every additional 1 kg in body weight, the heart will weigh an additional 4.034 grams on average
+
+### (d) Interpret R2
+
+#### Ans) 65 percent of the variance in heart weight is explained by body weight.
+
+### (e) Calculate the correlation coefficient
+
+#### Ans) 
+```{r}
+r <- sqrt(64.66/100)
+```
+
+#### The correlation coefficient is 0.804.
+
+## 5.Rate my professor:
+
+### (a) Given that the average standardized beauty score is -0.0883 and average teaching evaluation score is 3.9983,      calculate the slope. Alternatively, the slope may be computed using just the information provided in the model       summary table.
+
+#### Ans)
+```{r}
+# calculate intercept
+y <- 3.9983
+x <- -.0883
+beta_0 <- 4.01
+# calculate slope
+(beta_1 <- (y-beta_0)/x)
+
+```
+#### The slope is 0.132.
+
+### (b) Do these data provide convincing evidence that the slope of the relationship between teaching evaluation and     beauty is positive? Explain your reasoning.
+
+#### Ans) These data does show that the slope of the relationship between teaching evaluation and beauty is positive.      With the p-value being close to 0. we can conclude the slope to be positive.
+
+### (c) List the conditions required for linear regression and check if each one is satisfied for this model based on     the following diagnostic plots.
+
+#### Ans) Linearity: There is no pattern in the residuals or in the data. This is confirmed
+#### Normality of residuals: The residuals are appropriatly scattered and the histogram and qq plots are                  approximately normal. This is confirmed
+#### Constant Variance of residuals: There appears to be no difference in variance at the lower levels of professor       rating compared with the upper. This is confirmed
+#### Indepednance of observations: There is no pattern in the residuals based on order of data collection. This is        confirmed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
