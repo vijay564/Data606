@@ -1,0 +1,166 @@
+---
+title: "data606_hw9"
+author: "Vijaya Cherukuri"
+date: "11/11/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1.Baby weights, Part I:
+
+### (a) Write the equation of the regression line.
+
+#### ANs) baby_weight^ = 123.05 - 8.94 * smoke
+
+
+### (b) Interpret the slope in this context, and calculate the predicted birth weight of babies born to smoker and          non-smoker mothers.
+
+#### Ans)Slope is the estimated weight of babies born to mothers that smoke. 
+```{r}
+(smokers <- 123.05-8.94*(1))
+(nonsmokers <- 123.05-8.94*(0))
+```
+### (c) Is there a statistically significant relationship between the average birth weight and smoking?
+
+#### ANs) H0 = B1 equals 0 .HA = B1 does not equal zero.
+#### T = -8.95 P val = approx 0 The p value is very small, we reject H0. We can assume that smoking is associated         with lower birth weights
+
+## 2. Absenteeism, Part I:
+
+### (a) Write the equation of the regression line.
+
+#### Ans) days_absent = 18.93 - 9.11 * eth + 3.10 * sex + 2.15 * lrn
+
+### (b) Interpret each one of the slopes in this context.
+
+#### Ans) The ethnic background slope predict that a non-aboriginal student would have a higher average number of              days absent.
+#### The sex slope predict that a male student would have a higher average number of days absent.
+#### The learner status slope predict that a slow learner student would have a higher average number of days absent.
+
+### (c) Calculate the residual for the first observation in the data set: a student who is aboriginal, male, a slow       learner, and missed 2 days of school.
+
+#### Ans)
+```{r}
+Absent <- 18.93 - 9.11 * (0) + 3.10 * (1) + 2.15 * (1)
+(Residual <- Absent-2)
+```
+
+
+### (d) The variance of the residuals is 240.57, and the variance of the number of absent days for all students in       the data set is 264.17. Calculate the R2 and the adjusted R2. Note that there are 146 observations in the data       set.
+#### Ans)
+```{r}
+var_res <- 240.57
+var_num <- 264.17
+n <- 146
+k <- 3
+(R2 <- 1 - (var_res / var_num))
+(R2_adjusted <- 1 - (var_res/var_num) * ((n-1)/(n-k-1)))
+```
+
+
+## 3. Absenteeism, Part II:
+
+### a) Which, if any, variable should be removed from the model first?
+
+#### Ans) The fourth model (no learner status) has the highest adjusted R2adj=0.0723, and it is higher than the           adjusted R2adj=0.0701 of the full model. Variable learner status should be eliminated from the model first.
+
+## 4.Challenger disaster, Part I:
+
+### (a) Each column of the table above represents a different shuttle mission. Examine these data and describe what        you observe with respect to the relationship between temperatures and damaged O-rings.
+
+#### Ans) It appears there is an inverse relationship between damaged rings and temperature. The four lowest                   temperatures occurr when the there is at least one broken ring.
+
+### (b) Failures have been coded as 1 for a damaged O-ring and 0 for an undamaged O-ring, and a logistic regression       model was fit to these data. A summary of this model is given below. Describe the key components of this summary      table in words.
+### Estimate   Std. Error z value Pr(>|z|)
+### (Intercept) 11.6630   3.2963  3.54  0.0004
+### Temperature -0.2162   0.0532  -4.07 0.0000
+
+#### Ans) An intercept of 11.6630 suggests the probability of damaged O-rings at 0 temperature. The negative              temperature coefficient suggests that an increase of 1 degree in temperature reduces the number of damaged           O-rings by 0.2162
+
+
+### (c) Write out the logistic model using the point estimates of the model parameters.
+
+#### Ans) loge(pi/1−pi)=11.6630−0.2162×Temperature.
+
+### (d) Based on the model, do you think concerns regarding O-rings are justified? Explain.
+
+#### Ans) Based on the collected data, we can deduct a high probability of damage to O-rings under 50o. Also, since       O-rings are “Critical” components, I do think concerns regarding the O-rings are justified.
+
+## 5.Challenger disaster, Part II
+
+### a)Use the model to calculate the probability that an O-ring will become damaged at each of the following ambient       temperatures: 51, 53,and 55 degrees Fahrenheit
+
+#### Ans)
+```{r}
+p <- function(temp)
+{
+  phat <- exp(11.6630 - 0.2162 * temp) / (1 + exp(11.6630 - 0.2162 * temp))
+  
+  return (round(phat,3))
+}
+
+p(51)
+p(53)
+p(55)
+```
+
+### (b) Add the model-estimated probabilities from part~(a) on the plot, then connect these dots using a smooth curve      to represent the model-estimated probabilities.
+
+#### Ans)
+
+```{r}
+library(ggplot2)
+prob <- data.frame(shuttle=seq(1:23),temperature=c(53,57,58,63,66,67,67,67,68,69,70,70,70,70,72,73,75,75,76,76,78,79,81),damaged=c(5,1,1,1,0,0,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0),undamaged=c(c(1,5,5,5,6,6,6,6,6,6,5,6,5,6,6,6,6,5,6,6,6,6,6)))
+
+ggplot(prob,aes(x=temperature,y=damaged)) + geom_point() +  stat_smooth(method = 'glm')
+```
+
+
+### (c) Describe any concerns you may have regarding applying logistic regression in this application, and note any      assumptions that are required to accept the model’s validity.
+
+#### Ans)We have make sure residuals have a Normal distribution, and that the variance of the residuals is constant.     There is a linear relationship between temperature and the probability of a damaged O-ring. It assumes that          observations are independent.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
