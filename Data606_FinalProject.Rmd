@@ -1,0 +1,222 @@
+---
+title: "Data606_Final Project"
+author: "Vijaya Cherukuri"
+date: "12/8/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```
+This text is displayed verbatim / preformatted
+```
+
+### **Defining libraries**:
+
+```{r}
+library(tidyr)
+library(dplyr)
+library(psych)
+library(stringr)
+library(ggplot2)
+library(MASS)
+```
+
+ 
+### **Part 1 - Introduction**
+
+### **Introduction: What is your research question? Why do you care? Why should others care?**
+
+#### Which college majors offer the best opportunities in terms of unemployment rate and salary?
+
+#### The rise of College costs occuring slowly. Every student was thinking how much that he has to spent on their studies. There needs to be some change in public policy in such a way that makes higher education more affordable to more people, prospective students may have to make hard choices about how much debt they take on, and how quickly they can pay down that debt. Employment rates and salary statistics are important for cost-conscience students to choose a path that not encumber a student with unmanageable debt. To address these concerns i took that question.
+
+
+### **Part 2 - Data**
+
+#### **Data collection: Describe how the data were collected.**
+
+#### These Data were collated by the 538 website and was posted to their github page4. They in turn used data from:
+
+#### “All data is from American Community Survey 2010-2012 Public Use Microdata Series.
+
+#### Download data here:  http://www.census.gov/programs-surveys/acs/data/pums.html
+
+#### Documentation here: http://www.census.gov/programs-surveys/acs/technical-documentation/pums.html 
+
+#### Major categories are from Carnevale et al,”What’s It Worth?: The Economic Value of College Majors." Georgetown University Center on Education and the Workforce, 2011.5" Details for the Georgetown data set can be found here: https://1gyhoq479ufd3yna29x7ubjn-wpengine.netdna-ssl.com/wp-content/uploads/2015/01/WIW1-Methodology.pdf
+
+
+#### **Cases: What are the cases? (Remember: case = units of observation or units of experiment)**
+
+#### In many observational surveys the cases are individual people. That is not true for this study. Although the data was collected by asking individuals what their major, degree level, pay, and employment status was. The data is organized in such a way that the cases are the college majors. In the “All_ages” set," each case represents majors offered by colleges and universities in the US. These data include both undergrads and grad students. In the “Grad_students” set, each case represents majors offered by colleges and universities in the US. These data include only grad students aged 25+ years. Finally, in the “Recent_grad” set, each case represents majors offered by colleges and universities in the US. These data include only undergraduate students aged <28 years. “Recent_grad” also includes gender statistics. In all sets, the same 173 majors are used.
+
+
+#### **Variables: What are the two variables you will be studying? State the type of each variable.**
+
+
+#### The response variables are college majors which is categorical. Results will take the form of ordered lists. These lists will be created using the explanatory variables such as the counts of employed and unemployed college degree holders and the statistics of their income. These data are numerical.
+
+
+#### **Type of study: What is the type of study, observational or an experiment? Explain how you’ve arrived at your conclusion using information on the sampling and/or experimental design.**
+
+#### This is an observational study. Since these data were collected by survey and lacks experimental features like a control group and blinding. We therefore cannot establish a causal link between variables. However the sample size is small enough compared to the population where cases are independent, and the data were collected at random. We can make inferences and predictions using these data.
+
+#### **Scope of inference - generalizability: Identify the population of interest, and whether the findings from this analysis can be generalized to that population, or, if not, a subsection of that population. Explain why or why not. Also discuss any potential sources of bias that might prevent generalizability.**
+
+#### The data that we collected is from the samples from US degree holders. This data was a portion and not collected from the other countries. Whatever the prediction that we make here is only relevent with in the US.
+
+#### **Scope of inference - causality: Can these data be used to establish causal links between the variables of interest? Explain why or why not**.
+
+#### We cannot establish a causal link between variables. However the sample size is small enough compared to the population where cases are independent, and the data were collected at random. We can make inferences and predictions using these data.
+
+
+```{r}
+all_ages_df <-  read.csv(file ="https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/all-ages.csv", header= TRUE)
+names(all_ages_df)
+all_ages_df_eng <- all_ages_df %>% filter(Major_category == "Engineering")
+head(all_ages_df_eng)
+
+
+grad_df <-  read.csv(file = "https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/grad-students.csv", header= TRUE)
+names(grad_df)
+grad_df_eng <- grad_df %>% filter(Major_category == "Engineering")
+head(grad_df_eng)
+
+
+recent_grad_df <-  read.csv(file = "https://raw.githubusercontent.com/fivethirtyeight/data/master/college-majors/recent-grads.csv", header= TRUE)
+names(recent_grad_df)
+recent_grad_df_eng <- recent_grad_df %>% filter(Major_category == "Engineering")
+head(recent_grad_df_eng)
+```
+
+### **Part 3 - Exploratory data analysis**
+
+### **Perform relevant descriptive statistics, including summary statistics and visualization of the data. Also address what the exploratory data analysis suggests about your research question.**
+
+### Here we will compare unemployment rate and median salary data based solely on attainment level.
+
+### First we will look at overall unemployment rate for the 3 categories.
+```{r}
+summary(all_ages_df$Unemployment_rate)
+summary(grad_df$Grad_unemployment_rate)
+summary(recent_grad_df$Unemployment_rate)
+# Box plot
+unempl <- cbind(all_ages_df$Unemployment_rate, recent_grad_df$Unemployment_rate, grad_df$Grad_unemployment_rate)
+boxplot(unempl,names = c("All", "Recent Grad", "Grad Student"), ylab = "Unemployment Rate")
+#Bar plot
+unempl <- cbind(all_ages_df$Unemployment_rate, recent_grad_df$Unemployment_rate, grad_df$Grad_unemployment_rate)
+barplot(unempl/nrow(unempl), names.arg = c("All", "Recent Grad", "Grad Student"), xlab = "Unemployment Rate", col = rainbow(nrow(unempl)))
+```
+
+> *It appears that people holding only a Bachelor’s degree have nearly twice as high median unemployment as those with higher degrees. This suggests that having a graduate degree improves a person’s chance at finding a job*.
+
+### Now we will also look at median income(salary) for the three categories.
+
+```{r}
+summary(all_ages_df$Median)
+summary(grad_df$Grad_median)
+summary(recent_grad_df$Median)
+# Box plot
+medsal <- cbind(all_ages_df$Median, recent_grad_df$Median, grad_df$Grad_median)
+boxplot(medsal, names = c("All", "Recent Grad", "Grad Student"), ylab = "Median Salary USD")
+#Barplot
+income <- cbind(all_ages_df$Median, recent_grad_df$Median, grad_df$Grad_median)
+barplot(income/nrow(income), names.arg = c("All", "Recent Grad", "Grad Student"), xlab = "income", col = rainbow(nrow(income)))
+```
+
+> *We see from these graphs that the median salary of the graduate students is considered a high outlier for the recent graduate set, and the medial salary for the recent graduate data set is a low outlier for the graduate student set. This suggests that getting a graduate degree greatly improves earning potential*.
+
+### **Part 4 - Inference**
+   + __Check conditions__
+   + __Theoretical inference (if possible) - hypothesis test and confidence interval__
+   + __Simulation based inference - hypothesis test and confidence interval__
+   + __Brief description of methodology that reflects your conceptual understanding__
+
+### **Statistical test (Chi-square test (χ^2^))**
+
+#### It is not enough to simply look at graphs and draw conclusions as to whether our hypothesis is correct. Further statistical tests need to be preformed to test if what the graphs tell us is actually significant. To that end, we perform χ2 tests for independence, as this test is used to check for significance of a categorical variable like employed vs. unemployed6. Our null hypothesis is that major choice is independent of employment status. The alternative hypothesis is that employment status depends on major choice.
+
+```{r}
+# For user-freindliness we'll pull major, number employed, number unemployed.
+# for all ages
+all_age_contin <- all_ages_df %>% dplyr::select(Major, Employed, Unemployed) 
+head(all_age_contin)
+chisq.test(all_age_contin[,-1]) 
+
+# for all grad
+grd_st_contin <- grad_df %>% dplyr::select(Major, Grad_employed, Grad_unemployed)
+head(grd_st_contin)
+chisq.test(grd_st_contin[,-1])
+
+#for all recent grad
+rct_gr_contin <- recent_grad_df %>% dplyr::select(Major,Employed,Unemployed) %>% filter(Major != "MILITARY TECHNOLOGIES" )
+head(rct_gr_contin)
+chisq.test(rct_gr_contin[,-1])
+
+```
+
+> *As with the other two cases,we reject the null and accept the alternative that choice of major affects unemployment rate. Thus, regardless of degree level your choice of major will affect your unemployment rate. Generally speaking you’ll have better chances of finding a job in certain majors as compared to other majors*.
+
+#### Summary of χ2 Tests:
+#### Choice of major and level of degree attainment affects unemployment rate at all age levels.
+
+### **Linear Regression - unemployment rate and median salary**
+
+#### Job market pressure can have an impact on both median salary and unemployment rate. If a field has low demand but high supply this can depress the salary and increase the unemployment rate. Conversely, a high demand/low supply field will see increased salaries and decreased unemployment rates. Another effect to consider is that people in over-subscribed field may spend a greater time looking for a job, which would also decrease median salary as they may be unemployed or underemployed during the job hunt. This effect could show in the data as a correlation between unemployment rate and salary.
+
+#### To test if there is a connection between unemployment rate and median salary, we will take the “all_ages” data set and create linear regression models. If the residuals of the model do not show the necessary behavior of Normal Distribution and Constant Variance, we will perform a **Box-Cox transformation** on the data to get an exponential factor to improve the model.
+
+
+```{r}
+# model 1
+model1 <- lm(all_ages_df$Median ~ all_ages_df$Unemployment_rate)
+summary(model1)
+
+# Plot
+ggplot(all_ages_df, aes(x = Unemployment_rate, y = Median)) +geom_point(color = 'blue')+geom_smooth(method = "lm", formula = y~x)
+# Residual plot
+ggplot(model1, aes(.fitted, .resid)) + geom_point(color = "red", size=2) +labs(title = "Fitted Values vs Residuals") +labs(x = "Fitted Values") +labs(y = "Residuals")
+# Normal plot 
+qqnorm(resid(model1))
+qqline(resid(model1))
+# An outlier is effecting our linear regression. Box Cox will be used to correct.
+m1 <- boxcox(model1)
+m1_df <- as.data.frame(m1)
+(optimal_lambda <- m1_df[which.max(m1$y),1])
+
+#model 2
+model2 <- lm(all_ages_df$Median^optimal_lambda ~ all_ages_df$Unemployment_rate)
+summary(model2)
+#plot
+hist(resid(model2))
+# Residual plot
+ggplot(model2, aes(.fitted, .resid)) + geom_point(color = "red", size=2) +labs(title = "Fitted Values vs Residuals") +labs(x = "Fitted Values") +labs(y = "Residuals")
+# Normal plot 
+qqnorm(resid(model2))
+qqline(resid(model2))
+# An outlier is effecting our linear regression. Box Cox will be used to correct.
+m2 <- boxcox(model2)
+
+```
+
+
+
+### **Part 5 - Conclusion**
+
+### **Write a brief summary of your findings without repeating your statements from earlier. Also include a discussion of what you have learned about your research question and the data you collected. You may also want to include ideas for possible future research.**
+
+
+### *We find that choice in college major has a significant effect on median salary and unemployment rate.This effect is seen at all age levels. Higher salaries and lower unemployment tend to favor some college majors. There is a statistically, but not necessarily practically, significance between unemployment rate and median pay.*
+
+
+### **Future Work**
+
+> *These data are only represent a single point in time. Measuring trends is important for perspective college student, as they need to be able to predict what the job market is going to look like when they graduate. These trends may also influence choices in graduate study. Therefore it is necessary to repeat these surveys at regular intervals, and add time series analysis to the above analysis*.
+
+> *In the graduate student data, no differentiation is made between masters, doctorates or professional degrees. Adding a column to future surveys will be useful as more detailed analysis can be made in terms of how level of attainment will affect earnings an unemployment rates*.
+
+
+
